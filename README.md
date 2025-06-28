@@ -2,7 +2,7 @@
 
 A comprehensive explanation of the architecture, design decisions, and real-time GraphQL extension for the BookReview platform.
 
-# 📚 [process\_venue](https://stellar-book-reviews.vercel.app/)
+# 📚 [process\_venue](https://stellar-book-reviews.vercel.app/)---website link
 
 A modern and responsive book review platform built with React and TypeScript. Discover, rate, and review your favorite books with ease.
 
