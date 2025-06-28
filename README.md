@@ -1,4 +1,6 @@
+🎥 Live Walkthrough Video: Click to watch
 
+A comprehensive explanation of the architecture, design decisions, and real-time GraphQL extension for the BookReview platform.
 
 # 📚 [process\_venue](https://stellar-book-reviews.vercel.app/)
 
