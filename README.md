@@ -1,4 +1,4 @@
-🎥 Live Walkthrough Video: Click to watch
+🎥 Live Walkthrough Video:  https://drive.google.com/file/d/1yHFbP43Dcn7oh6V9ItxJ48r_b5YiFMNF/view?usp=sharing
 
 A comprehensive explanation of the architecture, design decisions, and real-time GraphQL extension for the BookReview platform.
 
