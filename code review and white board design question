@@ -1,0 +1,139 @@
+✅ 1. Code Review Walkthrough
+Hello everyone, and thank you for this opportunity.
+
+I'd like to walk you through my BookReview Platform, a full-stack application developed with React and TypeScript. This platform allows users to discover, review, and rate books, all through a clean, responsive UI powered by modern tooling and performance-first practices.
+
+🧱 Architecture & Folder Structure
+I followed a modular structure that makes the project highly maintainable and extensible:
+
+components/: Houses all reusable UI components, including:
+
+BookCard – Displays book details
+
+ReviewForm – Handles review submissions
+
+ReviewList – Renders all reviews
+
+ErrorBoundary – Captures runtime errors gracefully
+
+hooks/: Contains custom hooks like useBooks and useReviews built on TanStack Query (React Query) for data fetching and caching.
+
+pages/: Page-level route handlers like Index.tsx and NotFound.tsx.
+
+services/: Includes api.ts, an abstraction over Axios to streamline API interactions.
+
+types/: Defines TypeScript interfaces for Book and Review, ensuring type safety across components.
+
+lib/: Utility functions used across the app, such as formatters or validators.
+
+⚙ State Management & Logic
+I use TanStack Query to manage server state — it's ideal for automatically caching responses, deduplicating requests, and triggering background updates. This is especially useful for handling book/review data efficiently.
+
+For local UI state — toggles, modals, etc. — I use React’s built-in state management via useState.
+
+✅ Form Handling & Validation
+Forms are managed using React Hook Form in combination with Zod for schema validation. This guarantees that client-side validation logic matches server-side expectations, avoiding redundant or mismatched checks.
+
+🛑 Error Handling
+API call errors are handled within custom hooks using onError callbacks from TanStack Query.
+
+A global ErrorBoundary component catches any UI-rendering exceptions and provides a fallback UI to the user.
+
+This way, we ensure resilience at both the data and presentation layers.
+
+🚀 Performance Optimizations
+Vite is used as the build tool for its blazing-fast dev server and production bundling.
+
+Lazy loading is applied where needed to reduce the initial JS bundle size.
+
+React Query caches results locally, reducing unnecessary API calls.
+
+I also plan to implement debounced search input to avoid rapid backend requests when typing.
+
+🎨 Styling
+The UI is built using:
+
+Tailwind CSS for utility-first styling
+
+shadcn/ui components for consistent, accessible design
+
+Recharts to visualize metrics like average ratings
+
+This ensures a clean and intuitive UX across all devices.
+
+📐 2. Design Extension: GraphQL Subscriptions for Real-Time Reviews
+🎯 Objective
+Extend the platform to support real-time updates using GraphQL subscriptions, so that when a user posts a new review, other users viewing that book page receive it instantly — without needing to refresh or poll the server.
+
+🔄 GraphQL Schema Design
+To support subscriptions, we’d introduce the following schema:
+
+graphql
+Copy
+Edit
+type Review {
+  id: ID!
+  bookId: ID!
+  reviewerName: String!
+  rating: Int!
+  comment: String
+  createdAt: String!
+}
+
+type Subscription {
+  reviewAdded(bookId: ID!): Review
+}
+This enables clients to subscribe to new reviews for a specific book.
+
+🛠 Backend Design
+I’d use Apollo Server (or GraphQL Yoga) with a PubSub mechanism like Redis Pub/Sub.
+
+Key components:
+When a user posts a new review (via mutation), the server publishes the new review to subscribers via reviewAdded.
+
+Clients connected to the reviewAdded(bookId) subscription will instantly receive the new review.
+
+🔐 Authentication & Security
+WebSocket subscriptions require secure connections:
+
+The client sends a JWT token in the connectionParams during the WebSocket handshake.
+
+The server validates this token and extracts user information.
+
+Unauthorized users are denied access to subscriptions.
+
+🖥 Client Integration
+On the client side:
+
+Use a useSubscription() hook (e.g., from Apollo Client).
+
+Each book page subscribes to reviewAdded(bookId).
+
+When a new review is received, it is:
+
+Appended to the local state, OR
+
+Injected into the React Query cache using queryClient.setQueryData() for seamless consistency.
+
+📈 Scaling Considerations
+To scale this architecture in production:
+
+Sticky sessions or WebSocket-aware load balancers are required for WebSocket connections.
+
+Redis ensures subscription events are broadcasted across multiple server instances.
+
+Rate-limiting and payload validation must be enforced to prevent abuse.
+
+
+✅ Summary
+With this extension, the BookReview platform transforms from a traditional web app into a real-time, collaborative experience.
+
+It brings together:
+
+Modern frontend architecture
+
+Clean backend API structure
+
+Secure, scalable GraphQL subscription support
+
+A smooth user experience without needing refreshes
